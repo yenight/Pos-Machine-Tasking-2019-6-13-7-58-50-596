@@ -1,7 +1,7 @@
 const printReceipt =  barcodes => {
     let itemsDatas = isBarcodesExist(barcodes);
     if (itemsDatas.isBarcodesExist) {
-        let receiptItems = createRecipt(barcodes, itemsDatas.allItems);
+        let receiptItems = generateRecipt(barcodes, itemsDatas.allItems);
         return printReceiptItems(receiptItems);
     } else {
         return `[ERROR]:barcode is not exist`;
@@ -33,11 +33,11 @@ const isBarcodesExist =  (barcodes) => {
     return {isBarcodesExist: true, allItems: allItems}
 }
 
-const createRecipt = (barcodes, allItems) => {
+const generateRecipt = (barcodes, allItems) => {
     let reciptItems = [];
     for (let i = 0; i < barcodes.length; i++) {
         if (reciptItems.findIndex(value => value.id === barcodes[i]) < 0) {
-            reciptItems.push(createReciptItem(barcodes[i], allItems));
+            reciptItems.push(generateReciptItem(barcodes[i], allItems));
         } else {
             let index = reciptItems.findIndex(value => value.id === barcodes[i]);
             reciptItems[index].count++;
@@ -47,18 +47,17 @@ const createRecipt = (barcodes, allItems) => {
     return reciptItems;
 }
 
-const createReciptItem = (barcode, allItems) => {
+const generateReciptItem = (barcode, allItems) => {
     const index = allItems.findIndex((value => barcode === value.id))
     return {id: allItems[index].id, name: allItems[index].name, price: allItems[index].price, count: 1, totalPrice: allItems[index].price}
 }
 
 const printReceiptItems = (receiptItems) => {
     let receipt = `Receipts
-------------------------------------------------------------
-`;
+------------------------------------------------------------\n`;
     receipt += `${printItems(receiptItems)}\n`;
     receipt += `------------------------------------------------------------\n`;
-    receipt += printTotalPrice(receiptItems);
+    receipt += `${printTotalPrice(receiptItems)}`;
     return receipt;
 }
 
@@ -83,14 +82,14 @@ const printTotalPrice = (receiptItems) => {
     for (let i = 0; i < receiptItems.length; i++) {
         totalPrice += receiptItems[i].totalPrice;
     }
-    return `Price: ` + totalPrice;
+    return `Price: ${totalPrice}`;
 }
 
 exports.isBarcodesExist = isBarcodesExist;
 exports.loadAllItems = loadAllItems;
 exports.printReceipt = printReceipt;
-exports.createRecipt = createRecipt;
-exports.createReciptItem = createReciptItem;
+exports.generateRecipt = generateRecipt;
+exports.generateReciptItem = generateReciptItem;
 exports.printReceiptItems = printReceiptItems;
 exports.printItems = printItems;
 exports.printTotalPrice = printTotalPrice

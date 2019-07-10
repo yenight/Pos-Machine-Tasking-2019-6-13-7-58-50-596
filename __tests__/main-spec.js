@@ -48,7 +48,7 @@ it('should return {isBarcodesExist: false, allItems: allItems}',  () => {
 });
 
 it('should return [{"id": "001"...}...]', () => {
-    expect(main.createRecipt(['0001', '0003', '0005', '0003'], [
+    expect(main.generateRecipt(['0001', '0003', '0005', '0003'], [
         {"id": "0001", "name" : "Coca Cola", "price": 3},
         {"id": "0002", "name" : "Diet Coke", "price": 4},
         {"id": "0003", "name" : "Pepsi-Cola", "price": 5},
@@ -65,7 +65,7 @@ it('should return [{"id": "001"...}...]', () => {
 });
 
 it('should return {"id": "0001"...}', () => {
-    expect(main.createReciptItem('0001', [
+    expect(main.generateReciptItem('0001', [
         {"id": "0001", "name" : "Coca Cola", "price": 3},
         {"id": "0002", "name" : "Diet Coke", "price": 4},
         {"id": "0003", "name" : "Pepsi-Cola", "price": 5},
